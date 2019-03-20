@@ -32,4 +32,6 @@ public @interface ElasticJobScheduler {
     boolean overwrite() default false;
 
     boolean misfire() default false;
+
+    boolean streamingProcess() default false;
 }

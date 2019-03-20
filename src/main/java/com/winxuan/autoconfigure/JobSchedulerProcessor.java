@@ -99,6 +99,7 @@ public class JobSchedulerProcessor implements ApplicationContextAware, BeanFacto
         conf.setShardingTotalCount(anno.shardingTotalCount());
         conf.setOverwrite(anno.overwrite());
         conf.setMisfire(anno.misfire());
+        conf.setStreamingProcess(anno.streamingProcess());
     }
 
     private String defaultSchedulerName(JobConfigProperties conf, String jobBeanName) {
