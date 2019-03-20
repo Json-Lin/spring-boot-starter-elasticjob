@@ -56,6 +56,7 @@ public class JobSchedulerProcessor implements ApplicationContextAware, BeanFacto
         if (started) {
             return;
         }
+        started = true;
         Map<String, Object> beans = applicationContext.getBeansWithAnnotation(ElasticJobScheduler.class);
         CoordinatorRegistryCenter regCenter = applicationContext.getBean(ZookeeperRegistryCenter.class);
         for (Map.Entry<String, Object> entry : beans.entrySet()) {
@@ -65,11 +66,11 @@ public class JobSchedulerProcessor implements ApplicationContextAware, BeanFacto
             beanConfAutowire(jobBeanName, conf);
             annotionConfAutowire(jobBean, conf);
 
+
             SpringJobScheduler jobScheduler = JobSchedulerHelper.getSpringJobScheduler((ElasticJob) jobBean, regCenter, conf);
             beanFactory.registerSingleton(defaultSchedulerName(conf, jobBeanName), jobScheduler);
             jobScheduler.init();
         }
-        started = true;
     }
 
     private void beanConfAutowire(String prefix, JobConfigProperties conf) {
@@ -90,7 +91,7 @@ public class JobSchedulerProcessor implements ApplicationContextAware, BeanFacto
         }
 
         ElasticJobScheduler anno = job.getClass().getAnnotation(ElasticJobScheduler.class);
-        Preconditions.checkArgument(StringUtils.isNotBlank(anno.cron()), "must set a cron expression");
+        Preconditions.checkArgument(StringUtils.isNotBlank(anno.cron()), job.getClass().getName() + "must set a cron expression, check the conf is correct");
         conf.setCron(anno.cron());
         conf.setSchedulerName(anno.schedulerName());
         conf.setShardingItemParameters(anno.itemParameters());
@@ -101,7 +102,7 @@ public class JobSchedulerProcessor implements ApplicationContextAware, BeanFacto
     }
 
     private String defaultSchedulerName(JobConfigProperties conf, String jobBeanName) {
-        return StringUtils.isNoneBlank(conf.getSchedulerName()) ? conf.getSchedulerName() : jobBeanName + "SchedulerName";
+        return StringUtils.isNoneBlank(conf.getSchedulerName()) ? conf.getSchedulerName() : jobBeanName + "Scheduler";
     }
 
     private PropertySources deducePropertySources() {
