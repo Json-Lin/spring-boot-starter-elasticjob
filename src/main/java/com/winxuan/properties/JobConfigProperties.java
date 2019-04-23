@@ -15,7 +15,7 @@ public class JobConfigProperties {
      */
     private String cron;
     /**
-     * 作业执行的cron表达式
+     * 作业调度器名称
      */
     private String schedulerName;
     /**

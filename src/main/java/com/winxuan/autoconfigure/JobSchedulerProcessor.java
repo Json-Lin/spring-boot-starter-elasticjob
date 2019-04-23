@@ -66,7 +66,6 @@ public class JobSchedulerProcessor implements ApplicationContextAware, BeanFacto
             beanConfAutowire(jobBeanName, conf);
             annotionConfAutowire(jobBean, conf);
 
-
             SpringJobScheduler jobScheduler = JobSchedulerHelper.getSpringJobScheduler((ElasticJob) jobBean, regCenter, conf);
             beanFactory.registerSingleton(defaultSchedulerName(conf, jobBeanName), jobScheduler);
             jobScheduler.init();

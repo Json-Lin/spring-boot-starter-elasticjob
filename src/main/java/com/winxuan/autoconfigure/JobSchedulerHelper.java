@@ -27,7 +27,6 @@ public class JobSchedulerHelper {
                 .misfire(properties.isMisfire())
                 .build();
         JobTypeConfiguration jobConfig = switchJobConfiguration(job, coreConfig, properties.isStreamingProcess());
-        //默认以注册中心的配置为准
         return LiteJobConfiguration.newBuilder(jobConfig).overwrite(properties.isOverwrite()).build();
     }
 
