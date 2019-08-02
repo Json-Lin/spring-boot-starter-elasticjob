@@ -1,4 +1,4 @@
-package com.winxuan.annotation;
+package com.cheese.elastic.autoconfigura.annotation;
 
 import org.springframework.stereotype.Component;
 

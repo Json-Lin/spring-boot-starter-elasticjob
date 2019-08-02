@@ -1,4 +1,4 @@
-package com.winxuan.autoconfigure;
+package com.cheese.elastic.autoconfigura.autoconfigure;
 
 import com.dangdang.ddframe.job.api.ElasticJob;
 import com.dangdang.ddframe.job.api.dataflow.DataflowJob;
@@ -10,7 +10,7 @@ import com.dangdang.ddframe.job.config.simple.SimpleJobConfiguration;
 import com.dangdang.ddframe.job.lite.config.LiteJobConfiguration;
 import com.dangdang.ddframe.job.lite.spring.api.SpringJobScheduler;
 import com.dangdang.ddframe.job.reg.base.CoordinatorRegistryCenter;
-import com.winxuan.properties.JobConfigProperties;
+import com.cheese.elastic.autoconfigura.properties.ElasticJobProperties;
 
 /**
  * @author JasonLin
@@ -19,7 +19,13 @@ import com.winxuan.properties.JobConfigProperties;
  */
 public class JobSchedulerHelper {
 
-    private static LiteJobConfiguration getLiteJobConfiguration(final ElasticJob job, JobConfigProperties properties) {
+
+    public static <T extends ElasticJob> SpringJobScheduler getSpringJobScheduler(T job, CoordinatorRegistryCenter regCenter, ElasticJobProperties.JobProperty properties) {
+        return new SpringJobScheduler(job, regCenter,
+                getLiteJobConfiguration(job, properties));
+    }
+
+    private static LiteJobConfiguration getLiteJobConfiguration(final ElasticJob job, ElasticJobProperties.JobProperty properties) {
         JobCoreConfiguration coreConfig = JobCoreConfiguration
                 .newBuilder(job.getClass().getName(), properties.getCron(), properties.getShardingTotalCount())
                 .shardingItemParameters(properties.getShardingItemParameters())
@@ -38,10 +44,5 @@ public class JobSchedulerHelper {
         } else {
             throw new RuntimeException("not support ScriptJob type");
         }
-    }
-
-    public static <T extends ElasticJob> SpringJobScheduler getSpringJobScheduler(T job, CoordinatorRegistryCenter regCenter, JobConfigProperties properties) {
-        return new SpringJobScheduler(job, regCenter,
-                getLiteJobConfiguration(job, properties));
     }
 }
