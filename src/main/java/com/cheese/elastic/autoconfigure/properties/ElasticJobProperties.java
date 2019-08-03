@@ -1,16 +1,12 @@
-package com.cheese.elastic.autoconfigura.properties;
+package com.cheese.elastic.autoconfigure.properties;
 
 import org.springframework.boot.context.properties.ConfigurationProperties;
-import org.springframework.util.CollectionUtils;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 /**
  * @author JasonLin
- * @version V1.0
- * @date 2019/8/2
+ * @version V1.0.0
  */
 @ConfigurationProperties("elastic-job")
 public class ElasticJobProperties {
@@ -23,8 +19,6 @@ public class ElasticJobProperties {
      * 任务配置
      */
     private List<JobProperty> jobs;
-
-    private Map<String, JobProperty> jobPropertiesMap;
 
     public Registry getRegistry() {
         return registry;
@@ -39,29 +33,14 @@ public class ElasticJobProperties {
     }
 
     public void setJobs(List<JobProperty> jobs) {
-        initJobPropertiesMap(jobs);
         this.jobs = jobs;
-    }
-
-    private void initJobPropertiesMap(List<JobProperty> jobs) {
-        if (null == jobPropertiesMap && !CollectionUtils.isEmpty(jobs)) {
-            jobPropertiesMap = new HashMap<>();
-            for (JobProperty job : jobs) {
-                jobPropertiesMap.put(job.getJobName(), job);
-            }
-        }
-    }
-
-    public JobProperty getJobConfiguration(String jobName) {
-        initJobPropertiesMap(jobs);
-        return jobPropertiesMap.get(jobName);
     }
 
     public static class Registry {
         /**
          * 注册中心地址
          */
-        private String address;
+        private String address = "localhost:2181";
         /**
          * 命名空间
          */
@@ -85,15 +64,14 @@ public class ElasticJobProperties {
     }
 
     public static class JobProperty {
+        /**
+         * 作业名称
+         */
         private String jobName;
         /**
          * 作业执行的cron表达式
          */
         private String cron;
-        /**
-         * 作业调度器名称
-         */
-        private String schedulerName;
         /**
          * 作业分片参数
          */
@@ -114,7 +92,9 @@ public class ElasticJobProperties {
          * 作业错过执行时间是否立即触发一次
          */
         private boolean misfire;
-
+        /**
+         * 是否流式处理
+         */
         private boolean streamingProcess;
 
         public String getCron() {
@@ -163,14 +143,6 @@ public class ElasticJobProperties {
 
         public void setMisfire(boolean misfire) {
             this.misfire = misfire;
-        }
-
-        public String getSchedulerName() {
-            return schedulerName;
-        }
-
-        public void setSchedulerName(String schedulerName) {
-            this.schedulerName = schedulerName;
         }
 
         public boolean isStreamingProcess() {

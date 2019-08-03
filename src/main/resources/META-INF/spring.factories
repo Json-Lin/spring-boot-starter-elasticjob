@@ -1,2 +1,2 @@
 org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
-  com.cheese.elastic.autoconfigura.autoconfigure.ElasticJobAutoConfiguration
+com.cheese.elastic.autoconfigure.ElasticJobAutoConfiguration

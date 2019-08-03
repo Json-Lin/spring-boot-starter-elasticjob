@@ -1,0 +1,40 @@
+{
+  "groups": [
+    {
+      "name": "elastic-job",
+      "type": "com.cheese.elastic.autoconfigure.properties.ElasticJobProperties",
+      "sourceType": "com.cheese.elastic.autoconfigure.properties.ElasticJobProperties"
+    },
+    {
+      "name": "elastic-job.registry",
+      "type": "com.cheese.elastic.autoconfigure.properties.ElasticJobProperties$Registry",
+      "sourceType": "com.cheese.elastic.autoconfigure.properties.ElasticJobProperties",
+      "sourceMethod": "getRegistry()"
+    },
+    {
+      "name": "elastic-job.jobs",
+      "type": "java.util.List<com.cheese.elastic.autoconfigure.properties.ElasticJobProperties.JobProperty>",
+      "sourceType": "com.cheese.elastic.autoconfigure.properties.ElasticJobProperties"
+    }
+  ],
+  "properties": [
+    {
+      "name": "elastic-job.registry.address",
+      "type": "java.lang.String",
+      "sourceType": "com.cheese.elastic.autoconfigure.properties.ElasticJobProperties"
+    },
+    {
+      "name": "elastic-job.registry.namespace",
+      "type": "java.lang.String",
+      "sourceType": "com.cheese.elastic.autoconfigure.properties.ElasticJobProperties"
+    }
+  ],
+  "hints": [
+    {
+      "name": "elastic-job.registry.address",
+      "type": "java.lang.String",
+      "description": "zookeeper address.",
+      "defaultValue": "localhost:2181"
+    }
+  ]
+}
